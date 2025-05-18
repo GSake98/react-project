@@ -21,7 +21,7 @@ const Card = ({title}) => {
 const App = () => {
     return (
         <div className="card-container">
-            <Card title="Thunderbolts" rating={5} isCool={true}/>
+            <Card title="Thunderbolts" rating={5}/>
             <Card title="Final Destination"/>
             <Card title="28 Years Later"/>
         </div>

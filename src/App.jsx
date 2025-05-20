@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {Trans, useTranslation} from "react-i18next";
 import Search from "./components/search.jsx";
+import Spinner from "./components/spinner.jsx";
+import MovieCard from "./components/movieCard.jsx";
+import Platform from "./components/platform.jsx";
 
 const API_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -15,9 +18,13 @@ const API_OPTIONS = {
 const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [movieList, setMovieList] = useState([]);
+    const [loading, setLoading] = useState(false);
     const {t} = useTranslation();
 
     const fetchMovies = async () => {
+        setLoading(true);
+        setErrorMessage('');
         try {
             let url = `${API_URL}/discover/movie?sort_by=popularity.desc`;
             let response = await fetch(url, API_OPTIONS);
@@ -30,22 +37,28 @@ const App = () => {
 
             if(data.Response === 'False') {
                 setErrorMessage(t('error.fetchMovies'));
+                setMovieList([]);
+                return;
             }
 
-            console.log(data);
+            setMovieList(data.results || []);
+
         } catch (e) {
             setErrorMessage(t('error.generic'));
             console.error(e);
+        } finally {
+            setLoading(false);
         }
     };
 
-    // On App Init
+    // Run On-App init
     useEffect(() => {
         fetchMovies();
-    }, );
+    }, []);
 
     return (
         <main>
+            <Platform />
             <div className="pattern"></div>
             <div className="wrapper">
                 <header>
@@ -55,11 +68,20 @@ const App = () => {
                     </h1>
                 <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                 </header>
-                <section className="all-movies" style={{paddingTop: '20px'}}>
+                <section className="all-movies" style={{marginTop: '30px'}}>
                     <h2>
                         <Trans i18nKey="allMovies"/>
                         {errorMessage && <p className="text-red-500">{errorMessage}</p> }
                     </h2>
+                    {loading ? (
+                        <Spinner />
+                        ) : errorMessage ? (
+                            <p className="text-red-500">{errorMessage}</p>
+                        ) : <ul className="movie-list" style={{marginTop: '50px'}}>
+                        {movieList.map((movie) => (
+                            <MovieCard key={movie.id} movie={movie}/>
+                    ))}</ul>
+                    }
                 </section>
             </div>
         </main>

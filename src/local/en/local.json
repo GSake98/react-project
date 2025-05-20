@@ -1,4 +1,9 @@
 {
   "headline": "Find the perfect <gradient>movie</gradient> to watch tonight",
-  "searchMoviePlaceholder": "Search for a movie..."
+  "searchMoviePlaceholder": "Search for a movie...",
+  "allMovies": "All Movies Available",
+  "error": {
+    "generic": "Something went wrong.",
+    "fetchMovies": "Failed to fetch movies."
+  }
 }

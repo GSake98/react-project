@@ -1,4 +1,9 @@
 {
   "headline": "Βρες την καλύτερη <gradient>ταινία</gradient> για απόψε το βράδυ",
-  "searchMoviePlaceholder": "Ψάξε για ταινία..."
+  "searchMoviePlaceholder": "Ψάξε για ταινία...",
+  "allMovies": "Όλες Οι Διαθέσιμες Ταινίες",
+  "error": {
+    "generic": "Κάτι πήγε στραβά.",
+    "fetchMovies": "Απέτυχε η εύρεση των ταινιών."
+  }
 }

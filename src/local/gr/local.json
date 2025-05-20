@@ -2,6 +2,7 @@
   "headline": "Βρες την καλύτερη <gradient>ταινία</gradient> για απόψε το βράδυ",
   "searchMoviePlaceholder": "Ψάξε για ταινία...",
   "allMovies": "Όλες Οι Διαθέσιμες Ταινίες",
+  "loading": "Φορτώνει...",
   "error": {
     "generic": "Κάτι πήγε στραβά.",
     "fetchMovies": "Απέτυχε η εύρεση των ταινιών."

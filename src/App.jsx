@@ -9,7 +9,7 @@ const App = () => {
             <div className="pattern"></div>
             <div className="wrapper">
                 <header>
-                    <img src="public/hero.png" alt="Hero Banner"/>
+                    <img src="/hero.png" alt="Hero Banner"/>
                     <h1>
                         <Trans i18nKey="headline" components={{ gradient: <span className="text-gradient" /> }}/>
                     </h1>

@@ -1,11 +1,13 @@
 import React from 'react'
+import {useTranslation} from "react-i18next";
 
 const Search = ({searchTerm, setSearchTerm}) => {
+    const {t} = useTranslation();
     return (
         <div className="search">
             <div>
-                <img src="public/search.svg" alt="search" />
-                <input type="text" placeholder="Search for a movie..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                <img src="/search.svg" alt="search" />
+                <input type="text" placeholder={t('searchMoviePlaceholder')} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
             </div>
         </div>
     )

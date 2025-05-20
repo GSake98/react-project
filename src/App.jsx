@@ -1,32 +1,24 @@
-import {useState, useEffect} from "react";
-
-const Card = ({title}) => {
-    const [count, setCount] = useState(0);
-    const [hasLiked, setHasLiked] = useState(false);
-
-    useEffect(() => {
-        console.log(`${title} has been liked: ${hasLiked}`);
-    }, [hasLiked, title]);
-
-    return (
-        <div className="card" onClick={() => setCount((prevState) => prevState + 1)}>
-            <h2>{title} {count ? " - " + count : null}</h2>
-            <button onClick={() => setHasLiked(!hasLiked)}>
-                { hasLiked ? '❤️' : '🤍'}
-            </button>
-        </div>
-    )
-}
+import React, {useState} from 'react'
+import {Trans} from "react-i18next";
+import Search from "./components/search.jsx";
 
 const App = () => {
+    const [searchTerm, setSearchTerm] = useState('');
     return (
-        <div className="card-container">
-            <Card title="Thunderbolts" rating={5} isCool={true}/>
-            <Card title="Final Destination"/>
-            <Card title="28 Years Later"/>
-        </div>
+        <main>
+            <div className="pattern"></div>
+            <div className="wrapper">
+                <header>
+                    <img src="public/hero.png" alt="Hero Banner"/>
+                    <h1>
+                        <Trans i18nKey="headline" components={{ gradient: <span className="text-gradient" /> }}/>
+                    </h1>
+                </header>
+
+                <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+                <h1 className="text-white">{searchTerm}</h1>
+            </div>
+        </main>
     )
 }
-
-
 export default App

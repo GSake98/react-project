@@ -22,11 +22,13 @@ const App = () => {
     const [loading, setLoading] = useState(false);
     const {t} = useTranslation();
 
-    const fetchMovies = async () => {
+    const fetchMovies = async (query = '') => {
         setLoading(true);
         setErrorMessage('');
         try {
-            let url = `${API_URL}/discover/movie?sort_by=popularity.desc`;
+            let url = query
+            ?`${API_URL}/search/movie?query=${encodeURIComponent(query)}`
+            :`${API_URL}/discover/movie?sort_by=popularity.desc`;
             let response = await fetch(url, API_OPTIONS);
 
             if(!response.ok) {
@@ -53,8 +55,8 @@ const App = () => {
 
     // Run On-App init
     useEffect(() => {
-        fetchMovies();
-    }, []);
+        fetchMovies(searchTerm);
+    }, [searchTerm]);
 
     return (
         <main>

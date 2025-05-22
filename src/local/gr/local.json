@@ -3,6 +3,7 @@
   "searchMoviePlaceholder": "Ψάξε για ταινία...",
   "allMovies": "Όλες Οι Διαθέσιμες Ταινίες",
   "loading": "Φορτώνει...",
+  "votes": "Ψήφοι",
   "error": {
     "generic": "Κάτι πήγε στραβά.",
     "fetchMovies": "Απέτυχε η εύρεση των ταινιών."

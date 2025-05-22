@@ -3,6 +3,7 @@
   "searchMoviePlaceholder": "Search for a movie...",
   "allMovies": "All Movies Available",
   "loading": "Loading...",
+  "votes": "Votes",
   "error": {
     "generic": "Something went wrong.",
     "fetchMovies": "Failed to fetch movies."

@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
+import {useDebounce} from 'react-use'
 import {Trans, useTranslation} from "react-i18next";
 import Search from "./components/search.jsx";
 import Spinner from "./components/spinner.jsx";
 import MovieCard from "./components/movieCard.jsx";
 import Platform from "./components/platform.jsx";
+import LanguageButton from "./components/languageButton.jsx";
 
 const API_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -16,11 +18,16 @@ const API_OPTIONS = {
 }
 
 const App = () => {
+    const {t} = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [movieList, setMovieList] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {t} = useTranslation();
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+    useDebounce(() =>
+        setDebouncedSearchTerm(searchTerm), 500, [searchTerm]
+    );
 
     const fetchMovies = async (query = '') => {
         setLoading(true);
@@ -55,14 +62,15 @@ const App = () => {
 
     // Run On-App init
     useEffect(() => {
-        fetchMovies(searchTerm);
-    }, [searchTerm]);
+        fetchMovies(debouncedSearchTerm);
+    }, [debouncedSearchTerm]);
 
     return (
         <main>
             <Platform />
             <div className="pattern"></div>
             <div className="wrapper">
+                <LanguageButton></LanguageButton>
                 <header>
                     <img src="/hero.png" alt="Hero Banner"/>
                     <h1>

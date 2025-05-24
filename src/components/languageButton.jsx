@@ -5,18 +5,11 @@ import i18n from 'i18next';
 const LanguageButton = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState('en');
-
-    useDebounce(() => {
-        if (selectedLanguage) {
-            i18n.changeLanguage(selectedLanguage);
-        }
-    }, 200, [selectedLanguage]);
-
-
     const languages = [
         {name: 'English', code: "en", flag: "uk-flag.png"},
         {name: 'Greek', code: "gr", flag: "gr-flag.png"}
     ];
+    const currentLang = languages.find(lang => lang.code === selectedLanguage);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -25,7 +18,11 @@ const LanguageButton = () => {
         setIsOpen(false);
     };
 
-    var currentLang = languages.find(lang => lang.code === selectedLanguage);
+    useDebounce(() => {
+        if (selectedLanguage) {
+            i18n.changeLanguage(selectedLanguage);
+        }
+    }, 200, [selectedLanguage]);
 
     return (
         <div className="relative inline-block text-left">

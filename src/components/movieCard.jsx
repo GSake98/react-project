@@ -4,6 +4,7 @@ import {useTranslation} from "react-i18next";
 const MovieCard = ({movie: {title, vote_average, vote_count, poster_path, release_date, original_language}}) => {
     const {t} = useTranslation();
     return (
+        original_language === 'en' &&
         <div className="movie-card">
             <img src={poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-movie.png'} alt={title}/>
             <div className="mt-4">

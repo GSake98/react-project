@@ -6,6 +6,7 @@ import Spinner from "./components/spinner.jsx";
 import MovieCard from "./components/movieCard.jsx";
 import Platform from "./components/platform.jsx";
 import LanguageButton from "./components/languageButton.jsx";
+import {getTrendingMovies, updateSearchCount} from "./appwrite.js";
 
 const API_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -22,6 +23,7 @@ const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [movieList, setMovieList] = useState([]);
+    const [trendingMovies, setTrendingMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
@@ -52,6 +54,10 @@ const App = () => {
 
             setMovieList(data.results || []);
 
+            if(query !== '' && data.results.length > 0){
+                await updateSearchCount(query, data.results[0]);
+            }
+
         } catch (e) {
             setErrorMessage(t('error.generic'));
             console.error(e);
@@ -60,10 +66,25 @@ const App = () => {
         }
     };
 
+    const loadTrendingMovies = async () => {
+        try {
+            let movies = await getTrendingMovies();
+            setTrendingMovies(movies);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     // Run On-App init
     useEffect(() => {
         fetchMovies(debouncedSearchTerm);
     }, [debouncedSearchTerm]);
+
+    useEffect(() => {
+        loadTrendingMovies();
+    }, [])
 
     return (
         <main>
@@ -78,6 +99,26 @@ const App = () => {
                     </h1>
                 <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                 </header>
+                {trendingMovies.length > 0 && <section className="trending">
+                    <h2>
+                        <Trans i18nKey="trending"/>
+                    </h2>
+                    <ul className="movie-list">
+                        {trendingMovies.map((movie, index) => (
+                            <li key={movie.$id}>
+                                {index === 0 ?
+                                    <p className="text-yellow-100">{index + 1}</p>
+                                    : index === 1 ?
+                                    <p className="text-gray-500">{index + 1}</p>
+                                    : index === 2 ?
+                                    <p className="text-amber-900">{index + 1}</p>
+                                : <p className="text-gray-900" >{index + 1}</p>}
+                                <img style={{marginLeft: '10px'}} src={movie.poster_url} alt={movie.title}/>
+                            </li>
+                        ))}
+                    </ul>
+                </section>}
+
                 <section className="all-movies" style={{marginTop: '30px'}}>
                     <h2>
                         <Trans i18nKey="allMovies"/>
